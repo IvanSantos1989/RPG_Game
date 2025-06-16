@@ -1,6 +1,6 @@
 package entidades;
 
-import itens.*;
+import Itens.*;
 
 import java.util.ArrayList;
 import java.util.Random;
