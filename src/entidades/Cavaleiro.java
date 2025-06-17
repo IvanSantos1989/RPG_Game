@@ -1,14 +1,23 @@
-package Entidades;
+package entidades;
 
-import Itens.ArmaPrincipal;
-import Itens.Consumivel;
-import Itens.ConsumivelCombate;
+import itens.ArmaPrincipal;
+import itens.Consumivel;
+import itens.ConsumivelCombate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Arqueiro extends Heroi {
+public class Cavaleiro extends Heroi {
 
-    public Arqueiro(String nome, int vida, int forca, int ouro, ArmaPrincipal armaPrincipal) {
+    /**
+     * Construtor da classe Cavaleiro.
+     *
+     * @param nome Nome do cavaleiro.
+     * @param vida Vida máxima do cavaleiro.
+     * @param forca Força do cavaleiro.
+     * @param ouro Ouro inicial do cavaleiro.
+     * @param armaPrincipal Arma principal equipada pelo cavaleiro.
+     */
+    public Cavaleiro(String nome, int vida, int forca, int ouro, ArmaPrincipal armaPrincipal) {
         super(nome, vida, forca, ouro, armaPrincipal);
     }
 
@@ -17,35 +26,46 @@ public class Arqueiro extends Heroi {
         Scanner scanner = new Scanner(System.in);
         boolean ataqueEspecialUsado = false;
 
-        System.out.println("\n--- Combate iniciado contra: " + npc.getNome() + " ---");
+        System.out.println("\nInício do combate contra: " + npc.getNome());
 
         while (this.getHp() > 0 && npc.getHp() > 0) {
-            // --- TURNO DO ARQUEIRO ---
+            // NPC ataca primeiro, com 80% da força devido à armadura do cavaleiro
+            int danoInimigo = (int)(npc.getForca() * 0.8);
+            this.receberDano(danoInimigo);
+            System.out.println(npc.getNome() + " atacou! Cavaleiro recebeu " + danoInimigo + " de dano. Vida atual: " + this.getHp());
+
+            // Verifica se herói morreu
+            if (this.getHp() <= 0) break;
+
+            // Menu de ataque
             System.out.println("\nEscolha seu tipo de ataque:");
             System.out.println("1. Ataque Normal");
             System.out.println("2. Ataque Especial" + (ataqueEspecialUsado ? " (já usado)" : ""));
             System.out.println("3. Ataque com Consumível");
             System.out.print(">> ");
             int escolha = scanner.nextInt();
+            int dano;
 
             switch (escolha) {
-                case 1 -> {
-                    int dano = this.getForca() + this.getArmaPrincipal().getAtaque();
+                case 1:
+                    dano = this.getForca() + this.getArmaPrincipal().getAtaque();
                     npc.receberDano(dano);
-                    System.out.println("Você disparou uma flecha precisa! Causou " + dano + " de dano.");
-                }
-                case 2 -> {
+                    System.out.println("Você atacou com força total! Causou " + dano + " de dano.");
+                    break;
+
+                case 2:
                     if (!ataqueEspecialUsado) {
-                        int dano = this.getForca() + this.getArmaPrincipal().getAtaqueEspecial();
+                        dano = this.getForca() + this.getArmaPrincipal().getAtaqueEspecial();
                         npc.receberDano(dano);
                         ataqueEspecialUsado = true;
-                        System.out.println("Você disparou uma flecha explosiva! Causou " + dano + " de dano.");
+                        System.out.println("Você usou seu ataque especial! Causou " + dano + " de dano.");
                     } else {
                         System.out.println("Ataque especial já foi usado nesta luta.");
                     }
-                }
-                case 3 -> {
-                    ArrayList<Consumivel> consumiveis = this.getInventarioConsumiveisCombate();
+                    break;
+
+            case 3:
+                    ArrayList<Consumivel> consumiveis = this.getInventario();
                     if (consumiveis.isEmpty()) {
                         System.out.println("Você não tem consumíveis de combate.");
                         break;
@@ -63,28 +83,25 @@ public class Arqueiro extends Heroi {
                     } else {
                         System.out.println("Ataque com consumível cancelado.");
                     }
-                }
-                default -> System.out.println("Opção inválida.");
+                    break;
+                default: System.out.println("Opção inválida.");
+                break;
             }
 
             // Verifica se NPC morreu
             if (npc.getHp() <= 0) break;
-
-            // --- TURNO DO NPC ---
-            int danoInimigo = (int)(npc.getForca() * 1.10); // 10% a mais
-            this.receberDano(danoInimigo);
-            System.out.println(npc.getNome() + " revidou! Arqueiro recebeu " + danoInimigo + " de dano. Vida atual: " + this.getHp());
         }
 
         if (this.getHp() > 0) {
-            System.out.println("\n" + this.getNome() + " venceu o combate com precisão!");
-            this.setNivel(this.getNivel() + 1);
+            // Vitória do herói
+            System.out.println("\n" + this.getNome() + " venceu a batalha!");
+            this.setNivel();
             this.setHp(this.getHp() + 10);
             this.setForca(this.getForca() + 1);
             this.setOuro(this.getOuro() + npc.getOuro());
             return true;
         } else {
-            System.out.println("\n" + this.getNome() + " caiu em batalha...");
+            System.out.println("\n" + this.getNome() + " foi derrotado...");
             return false;
         }
     }

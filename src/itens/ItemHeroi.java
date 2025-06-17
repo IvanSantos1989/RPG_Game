@@ -1,16 +1,20 @@
-package Itens;
+package itens;
 
 import java.util.ArrayList;
 
+/**
+ * Classe que representa uma arma principal de um herói.
+ * Herda de ItemHeroi e adiciona atributos específicos de armas.
+ */
 public abstract class ItemHeroi {
     private String nome;
     private int preco;
     private ArrayList<String> heroisPermitidos;
 
-    public ItemHeroi(String nome, int preco, ArrayList<String> heroisPermitidos) {
+    public ItemHeroi(String nome, int preco) {
         this.nome = nome;
         this.preco = preco;
-        this.heroisPermitidos = heroisPermitidos;
+        this.heroisPermitidos = new ArrayList<>();
     }
 
     public void mostrarDetalhes() {
@@ -33,7 +37,10 @@ public abstract class ItemHeroi {
     }
 
     // Verifica se o item é compatível com um herói
-    public boolean podeSerUsadoPor(String tipoHeroi) {
-        return heroisPermitidos.contains(tipoHeroi);
+    public boolean adicionarHeroiPermitido(String tipoHeroi) {
+        if (!getHeroisPermitidos().contains(tipoHeroi)) {
+            getHeroisPermitidos().add(tipoHeroi);
+        }
+        return true; // Permite todos os tipos de herói
     }
 }

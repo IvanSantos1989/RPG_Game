@@ -1,6 +1,6 @@
-package Jogo;
+package jogo;
 
-import Entidades.Heroi;
+import entidades.Heroi;
 import java.util.Scanner;
 
 public class Main {
@@ -8,6 +8,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("🎮 Bem-vindo ao RPG - Labirinto Mortal!");
+        System.out.println();
 
         boolean continuar = true;
 
@@ -19,7 +20,7 @@ public class Main {
             String resposta = scanner.nextLine().toLowerCase();
             if (!resposta.equals("s")) {
                 continuar = false;
-                System.out.println("Obrigado por jogar! Até a próxima.");
+                System.out.println("Fim de jogo! Até a próxima.");
             }
         }
     }

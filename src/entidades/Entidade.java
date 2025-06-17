@@ -29,11 +29,11 @@ public abstract class Entidade {
         return vidaMax;
     }
 
-    public int getVidaAtual() {
+    public int getHp() {
         return vidaAtual;
     }
 
-    public void setVidaAtual(int vidaAtual) {
+    public void setHp(int vidaAtual) {
         this.vidaAtual = Math.min(vidaAtual, vidaMax); // evita passar do máximo
     }
 
@@ -45,7 +45,7 @@ public abstract class Entidade {
         this.forca = forca;
     }
 
-    public void tomarDano(int dano) {
+    public void receberDano(int dano) {
         vidaAtual -= dano;
         if (vidaAtual < 0) vidaAtual = 0;
     }

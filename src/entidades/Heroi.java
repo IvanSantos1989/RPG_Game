@@ -1,7 +1,7 @@
 package entidades;
 
-import Itens.ArmaPrincipal;
-import Itens.Consumivel;
+import itens.ArmaPrincipal;
+import itens.Consumivel;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,23 +11,24 @@ public abstract class Heroi extends Entidade {
     private ArmaPrincipal armaPrincipal;
     private ArrayList<Consumivel> inventario;
 
-    public Heroi(String nome, int vidaMax, int forca, int ouro) {
+    public Heroi(String nome, int vidaMax, int forca, int ouro, ArmaPrincipal armaPrincipal) {
         super(nome, vidaMax, forca);
         this.nivel = 1;
         this.ouro = ouro;
         this.inventario = new ArrayList<>();
+        this.armaPrincipal = armaPrincipal;
     }
 
-    public abstract Entidade atacar(NPC npc); // será implementado nas subclasses
+    public abstract boolean atacar(NPC npc); // será implementado nas subclasses
 
 
     public int getNivel() {
         return nivel;
     }
 
-    public void subirNivel() {
+    public void setNivel() {
         this.nivel++;
-        this.setVidaAtual(this.getVidaAtual() + 10);
+        this.setHp(this.getHp() + 10);
         this.setForca(this.getForca() + 1);
     }
 
@@ -74,7 +75,7 @@ public abstract class Heroi extends Entidade {
 
         // Filtrar poções
         for (Consumivel c : inventario) {
-            if (c instanceof Itens.Pocao) {
+            if (c instanceof itens.Pocao) {
                 pochetes.add(c);
             }
         }
@@ -86,7 +87,7 @@ public abstract class Heroi extends Entidade {
 
         System.out.println("\n--- Poções Disponíveis ---");
         for (int i = 0; i < pochetes.size(); i++) {
-            Itens.Pocao p = (Itens.Pocao) pochetes.get(i);
+            itens.Pocao p = (itens.Pocao) pochetes.get(i);
             System.out.println((i + 1) + ". " + p.getNome() + " | Cura: " + p.getVidaACurar() + ", Força: +" + p.getAumentoForca());
         }
         System.out.println("0. Cancelar");
@@ -99,7 +100,7 @@ public abstract class Heroi extends Entidade {
             return;
         }
 
-        Itens.Pocao pocaoEscolhida = (Itens.Pocao) pochetes.get(escolha - 1);
+        itens.Pocao pocaoEscolhida = (itens.Pocao) pochetes.get(escolha - 1);
 
         // Verificar excesso de cura
         int vidaAtual = this.getHp();

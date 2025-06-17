@@ -1,6 +1,6 @@
 package entidades;
 
-import Itens.*;
+import itens.*;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,9 +18,10 @@ public class Vendedor {
         loja.add(item);
     }
 
-    // Mostra até 10 itens aleatórios diferentes da loja (sem repetir, sem usar contains)
-    public void imprimirLoja() {
+    // Mostra até 10 itens aleatórios diferentes da loja
+    public ArrayList<ItemHeroi> imprimirLoja() {
         System.out.println("Itens disponíveis na loja:");
+        ArrayList<ItemHeroi> exibidos = new ArrayList<>();
 
         Random random = new Random();
         int quantidade = Math.min(10, loja.size());
@@ -29,8 +30,6 @@ public class Vendedor {
 
         while (count < quantidade) {
             int indice = random.nextInt(loja.size());
-
-            // Verifica se o índice já foi sorteado
             boolean jaUsado = false;
             for (int i = 0; i < count; i++) {
                 if (indicesUsados[i] == indice) {
@@ -39,22 +38,26 @@ public class Vendedor {
                 }
             }
 
-            // Se o índice ainda não foi usado, mostra o item
             if (!jaUsado) {
                 indicesUsados[count] = indice;
+                ItemHeroi item = loja.get(indice);
                 System.out.println("\nItem #" + (count + 1));
-                loja.get(indice).mostrarDetalhes();
+                item.mostrarDetalhes();
+                exibidos.add(item);
                 count++;
             }
         }
+
+        return exibidos;
     }
+
 
     // Vende um item ao herói (se for compatível e ele tiver ouro suficiente)
     public void vender(Heroi heroi, ItemHeroi item) {
         String tipoHeroi = heroi.getClass().getSimpleName();
 
         // Verifica se o herói pode usar o item
-        if (!item.podeSerUsadoPor(tipoHeroi)) {
+        if (!item.adicionarHeroiPermitido(tipoHeroi)) {
             System.out.println("Este item não pode ser usado por um " + tipoHeroi + ".");
             return;
         }
