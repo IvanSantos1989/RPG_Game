@@ -127,7 +127,7 @@ public class Jogo {
             vendedor.adicionarItem(item);
         }
 
-        System.out.println("\n🧙‍♂️ Um velho vendedor aparece:");
+        System.out.println("\n Um velho vendedor aparece:");
         ArrayList<ItemHeroi> itensExibidos = vendedor.imprimirLoja();
 
         while (true) {
@@ -148,9 +148,9 @@ public class Jogo {
             vendedor.vender(heroi, itemEscolhido);
         }
 
-        System.out.println("\n🚪 Primeira sala: um Esqueleto aparece!");
+        System.out.println("\n Primeira sala: um Esqueleto aparece!");
         NPC inimigo1 = new NPC("Esqueleto Guerreiro", 30, 30, 7);
-        System.out.println("⚔️ Enfrentará: " + inimigo1.getNome());
+        System.out.println(" Enfrentará: " + inimigo1.getNome());
 
         System.out.println("Deseja lutar ou tentar fugir? (lutar/fugir)");
         String escolhaLuta = scanner.nextLine().toLowerCase();
@@ -160,7 +160,7 @@ public class Jogo {
 
         boolean venceu = heroi.atacar(inimigo1);
         if (!venceu) {
-            System.out.println("☠️ Você morreu. Tentar novamente? (s/n)");
+            System.out.println(" Você morreu. Tentar novamente? (s/n)");
             if (scanner.nextLine().toLowerCase().equals("s")) labirintoMortal(heroi);
             else return;
         }
@@ -174,18 +174,18 @@ public class Jogo {
         String proximaSala = scanner.nextLine();
 
         if (proximaSala.equals("1")) {
-            System.out.println("🌫️ A névoa envenena o ar...");
+            System.out.println(" A névoa envenena o ar...");
             int dano = rand.nextInt(30) + 1;
             heroi.receberDano(dano);
-            System.out.println("⚠️ Você recebeu " + dano + " de dano! HP: " + heroi.getHp());
+            System.out.println(" Você recebeu " + dano + " de dano! HP: " + heroi.getHp());
             if (heroi.getHp() <= 0) return;
         } else {
-            System.out.println("🪓 Você caminha pelo corredor escuro...");
+            System.out.println(" Você caminha pelo corredor escuro...");
             int chance = rand.nextInt(100);
             if (chance < 10) {
                 ConsumivelCombate item = new ConsumivelCombate("Lâmina de Sombra", 1, 20);
                 heroi.getInventario().add(item);
-                System.out.println("🎉 Você achou: " + item.getNome());
+                System.out.println(" Você achou: " + item.getNome());
             } else {
                 System.out.println("Você não encontrou nada.");
             }
@@ -195,7 +195,7 @@ public class Jogo {
         if (scanner.nextLine().toLowerCase().equals("s")) heroi.usarPocao();
 
         // Múltiplos inimigos
-        System.out.println("🩸 Você entra numa arena...");
+        System.out.println(" Você entra numa arena...");
         int qtd = rand.nextInt(100);
         int numInimigos = (qtd < 50) ? 1 : (qtd < 80) ? 2 : 3;
 
@@ -205,7 +205,7 @@ public class Jogo {
             if (!sobreviveu) return;
         }
 
-        System.out.println("\n🏪 O vendedor aparece novamente!");
+        System.out.println("\n O vendedor aparece novamente!");
         itensExibidos = vendedor.imprimirLoja();
 
         while (true) {
@@ -227,12 +227,12 @@ public class Jogo {
 
         // Chefe final
         NPC chefe = new NPC("Guardião das Trevas", 70, 70, 12);
-        System.out.println("🛡️ Boss: " + chefe.getNome());
+        System.out.println(" Boss: " + chefe.getNome());
 
         if (heroi.atacar(chefe)) {
-            System.out.println("🏆 Vitória! Você escapou do Labirinto Mortal!");
+            System.out.println(" Vitória! Você escapou do Labirinto Mortal!");
         } else {
-            System.out.println("☠️ Você foi derrotado pelo chefe final.");
+            System.out.println(" Você foi derrotado pelo chefe final.");
         }
     }
 }
